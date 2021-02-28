@@ -1,8 +1,17 @@
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from .models import Leave, Staff
-from .forms import LeaveForm, LeaveModelForm
+from .forms import LeaveForm, LeaveModelForm, CustomUserCreationForm
 from django.views.generic import TemplateView, CreateView ,UpdateView, DeleteView, ListView, DetailView
+
+
+class SignupView(CreateView):
+    template_name = 'registration/signup.html'
+    form_class = CustomUserCreationForm
+
+    def get_success_url(self):
+        return reverse("login")
 
 class LandingPageView(TemplateView):
     template_name = 'landing.html'
@@ -48,6 +57,15 @@ class LeaveCreateView(CreateView):
     def get_success_url(self):
         return reverse("leave:leave")
 
+    def form_valid(self, form):
+        send_mail(
+            subject='A leave date has been added', 
+            message='Go to the site to see the new leave',
+            from_email = "test@test.com",
+            recipient_list=["test2@test.com"],
+        )
+        return super(LeaveCreateView, self).form_valid(form)
+
 def create_leave(request):
     form = LeaveModelForm()
     if request.method == "POST":
@@ -57,7 +75,7 @@ def create_leave(request):
             form.save()
             return redirect("/leave")
     context = {
-        'forms': form
+        'form': form
     }
     return render(request, 'leave/create_leave.html', context)
 
