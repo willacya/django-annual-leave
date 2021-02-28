@@ -1,39 +1,48 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-       
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <style>
-            .leave {
-                padding-top: 10px;
-                padding-bottom: 10px;
-                padding-left: 6px;
-                padding-right: 10px;
-                background-color: #f6f6f6;
-                width: 100%;
-            }
+{% extends 'base.html' %}
 
-        </style>
-    </head>
-    <body>
-        <h1>This is all your leave</h1>
+{% block content %}
 
+
+
+
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto flex flex-wrap">
+    <div class="w-full mb-6 py-6 flex justify-between items-center border-b border-gray-200">
+        <div>
+            <h1 class="text-4xl text-gray-800">Annual Leave</h1>
+        </div>
+        <div>
+            <a class="text-gray-500 hover:text-blue-500" href="{% url 'leave:leave-create' %}">Add Leave</a>
+        </div>
+    </div>
+
+  
+    <div class="flex flex-wrap -m-4">
         {% for l in leave %}
-            <div class="leave">
-                <a href="/leave/{{ l.pk }}/">Date: {{ l.leaveDate }} </a> from {{l.startTime}} to {{l.endTime}}
-            </div>
-        {% endfor %}
+      <div class="p-4 lg:w-1/2 md:w-full">
+        <div class="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">
+          <div class="w-16 h-16 sm:mr-8 sm:mb-0 mb-4 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-8 h-8" viewBox="0 0 24 24">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+          </div>
+          <div class="flex-grow">
+            <h2 class="text-gray-900 text-lg title-font font-medium mb-3">{{l.staff}}</h2>
+            <p class="leading-relaxed text-base">{{l.leaveDate}}</p>
+            <a href="{% url 'leave:leave-detail' l.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">View Leave
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
 
-       
-        
-        <script src="" async defer></script>
-    </body>
-</html>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock content %}

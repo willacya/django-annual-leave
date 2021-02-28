@@ -2,7 +2,7 @@
 
 {% block content %}
        
-        <a href="{% url 'leave:leave' %}">Back to leave</a><br>
+        <a href="{% url 'leave:leave' %}">You sure you want to delete?</a><br>
         
         <form method="post">
         {% csrf_token %}
