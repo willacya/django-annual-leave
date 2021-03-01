@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from .models import Leave, Staff
 from .forms import LeaveForm, LeaveModelForm, CustomUserCreationForm
 from django.views.generic import TemplateView, CreateView ,UpdateView, DeleteView, ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class SignupView(CreateView):
@@ -20,7 +21,7 @@ def landing_page(request):
     return render(request, 'landing.html')
 # Create your views here.
 
-class LeaveListView(ListView):
+class LeaveListView(LoginRequiredMixin, ListView):
     template_name = 'leave/booked.html'
     queryset = Leave.objects.all()
     context_object_name = 'leave'
@@ -35,7 +36,7 @@ def booked_leave(request):
     }
     return render(request, "leave/booked.html", context)
 
-class LeaveDetailView(DetailView):
+class LeaveDetailView(LoginRequiredMixin, DetailView):
     template_name = 'leave/leave_detail.html'
     queryset = Leave.objects.all()
     context_object_name = 'leave'
@@ -50,7 +51,7 @@ def detail_view(request, pk):
         }
     return render(request, 'leave/leave_detail.html', context)
 
-class LeaveCreateView(CreateView):
+class LeaveCreateView(LoginRequiredMixin,CreateView):
     template_name = 'leave/create_leave.html'
     form_class = LeaveModelForm
 
@@ -79,7 +80,7 @@ def create_leave(request):
     }
     return render(request, 'leave/create_leave.html', context)
 
-class LeaveUpdateView(UpdateView):
+class LeaveUpdateView(LoginRequiredMixin,UpdateView):
     template_name = 'leave/update_leave.html'
     queryset = Leave.objects.all()
     form_class = LeaveModelForm
@@ -101,7 +102,7 @@ def update_leave(request, pk):
     }
     return render(request, 'leave/update_leave.html', context)
 
-class LeaveDeleteView(DeleteView):
+class LeaveDeleteView(LoginRequiredMixin,DeleteView):
     template_name = 'leave/delete_leave.html'
     queryset = Leave.objects.all()
 
