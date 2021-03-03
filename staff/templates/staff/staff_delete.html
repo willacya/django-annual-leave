@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+       
+        <a href="{% url 'staff:staff-list' %}">You sure you want to delete?</a><br>
+        
+        <form method="post">
+        {% csrf_token %}
+        {{ forms.as_p }}
+        <button type='submit'>Submit</button>
+        </form>
+{% endblock content %}

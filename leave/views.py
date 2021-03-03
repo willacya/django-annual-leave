@@ -5,6 +5,7 @@ from .models import Leave, Staff
 from .forms import LeaveForm, LeaveModelForm, CustomUserCreationForm
 from django.views.generic import TemplateView, CreateView ,UpdateView, DeleteView, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from staff.mixins import OrganisorAndLoginRequiredMixin
 
 
 class SignupView(CreateView):
@@ -51,7 +52,7 @@ def detail_view(request, pk):
         }
     return render(request, 'leave/leave_detail.html', context)
 
-class LeaveCreateView(LoginRequiredMixin,CreateView):
+class LeaveCreateView(OrganisorAndLoginRequiredMixin,CreateView):
     template_name = 'leave/create_leave.html'
     form_class = LeaveModelForm
 
