@@ -24,8 +24,19 @@ def landing_page(request):
 
 class LeaveListView(LoginRequiredMixin, ListView):
     template_name = 'leave/booked.html'
-    queryset = Leave.objects.all()
     context_object_name = 'leave'
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_organisor:
+            queryset = Leave.objects.filter(organisation=user.userprofile)
+        else:
+            queryset = Leave.objects.filter(organisation=user.staff.organisation)
+            
+            queryset = queryset.filter(staff__user=user)
+            
+        return queryset
 
 
 def booked_leave(request):

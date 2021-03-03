@@ -14,9 +14,6 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
-
-
-
 class Staff(models.Model):
     PROFESSION = (
         ('PT','Physiotherapist'),
@@ -36,7 +33,8 @@ class Leave(models.Model):
     leaveDate = models.DateField()
     startTime = models.TimeField()
     endTime = models.TimeField()
-    staff = models.ForeignKey('Staff', on_delete=models.CASCADE)
+    organisation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    staff = models.ForeignKey('Staff', null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f'{self.staff} {self.leaveDate} {self.startTime}-{self.endTime}'
